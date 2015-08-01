@@ -3,8 +3,8 @@ import QtQuick.Controls 1.3
 
 ApplicationWindow {
     title: qsTr("Hello World")
-    width: 640
-    height: 480
+	width: 600
+	height: 450
     visible: true
 
 	Item {
@@ -23,6 +23,7 @@ ApplicationWindow {
 			Button {
 				id: btn
 				text: "Button"
+				onClicked: DataBase.getName(2)
 			}
 		}
 	}

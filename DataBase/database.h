@@ -5,7 +5,9 @@
 #include <QString>
 #include <QList>
 #include <QDir>
+#include <QSql>
 #include <QSqlDatabase>
+#include <QSqlDriver>
 #include <QSqlQuery>
 
 class DataBase : public QObject
