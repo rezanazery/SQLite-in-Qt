@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
 	root->setContextProperty("DataBase", db);
 
-//	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();
 }
