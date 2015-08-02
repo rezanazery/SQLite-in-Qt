@@ -1,14 +1,18 @@
 #include "database.h"
 #include <QDebug>
+#include <QFile>
 
 DataBase::DataBase(QObject *parent) : QObject(parent)
 {
+	QFile file("://myDB");
+	file.copy("./aaa");
+	QFile::setPermissions("./aaa", QFile::WriteOwner | QFile::ReadOwner);
+
 	const QString path = "myDB";
 	db = QSqlDatabase::addDatabase("QSQLITE");  //not dbConnection
 	db.setDatabaseName(path);
 	db.open();
 
-	//	qDebug() << q.exec("CREATE TABLE IF NOT EXISTS Testing2(Id INTEGER);");
 }
 
 QVariant DataBase::searchResualt()

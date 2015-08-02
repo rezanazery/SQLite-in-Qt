@@ -2,9 +2,11 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <database.h>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
+
 	QApplication app(argc, argv);
 
 	QQmlApplicationEngine engine;
