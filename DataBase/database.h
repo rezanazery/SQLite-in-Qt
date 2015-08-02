@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <QString>
-#include <QList>
-#include <QDir>
 #include <QSql>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlQuery>
+#include <QStringList>
+#include <QVariant>
 
 class DataBase : public QObject
 {
@@ -30,16 +30,19 @@ private:
 
 	QString myName;
 	QString myFamily;
-	QList<QString> list_name;
-	QList<QString> list_family;
+//	QStringList list_name;
+//	QStringList list_family;
 
 signals:
 	void nameChanged();
 	void familyChanged();
 
 public slots:
-	void getName(const int i);
-	void getFamily(const int i);
+	void initData();
+	QString getName(const int i);
+	QVariant getNames();
+	QString getFamily(const int i);
+	QVariant getFamilys();
 };
 
 #endif // DATABASE_H

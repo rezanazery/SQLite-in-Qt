@@ -1,8 +1,8 @@
 import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick.Controls 1.4
 
 ApplicationWindow {
-    title: qsTr("Hello World")
+	title: "DataBase"
 	width: 600
 	height: 450
     visible: true
@@ -15,15 +15,33 @@ ApplicationWindow {
 			spacing: 15
 
 			Label {
-				id: lbl
 				text: DataBase.name
-				anchors.horizontalCenter: btn.horizontalCenter
+				anchors.horizontalCenter: parent.horizontalCenter
 			}
 
 			Button {
-				id: btn
 				text: "Button"
-				onClicked: DataBase.getName(2)
+				onClicked: DataBase.getName(1)
+				anchors.horizontalCenter: parent.horizontalCenter
+			}
+
+			Row {
+				anchors.horizontalCenter: parent.horizontalCenter
+				ListView {
+					width: 100; height: 200
+					model: DataBase.getNames()
+					delegate: Text {
+						text: modelData
+					}
+				}
+
+				ListView {
+					width: 100; height: 200
+					model: DataBase.getFamilys()
+					delegate: Text {
+						text: modelData
+					}
+				}
 			}
 		}
 	}
