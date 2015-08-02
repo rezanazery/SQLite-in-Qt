@@ -3,85 +3,80 @@
 
 DataBase::DataBase(QObject *parent) : QObject(parent)
 {
-	myName = "name field is blank";
-	myFamily = "family field is blank";
-
 	const QString path = "myDB";
 	db = QSqlDatabase::addDatabase("QSQLITE");  //not dbConnection
 	db.setDatabaseName(path);
 	db.open();
 
-//	qDebug() << query.exec("CREATE TABLE IF NOT EXISTS Testing2(Id INTEGER);");
+	//	qDebug() << q.exec("CREATE TABLE IF NOT EXISTS Testing2(Id INTEGER);");
 }
 
-QString DataBase::name()
+QVariant DataBase::searchResualt()
 {
-	return this->myName;
+	return this->resualt;
 }
 
-QString DataBase::family()
+void DataBase::setSearchResualt(const QVariant &r)
 {
-	return this->myFamily;
-}
-
-void DataBase::setName(const QString &name)
-{
-	this->myName = name;
-	emit nameChanged();
-}
-
-void DataBase::setFamily(const QString &family)
-{
-	this->myFamily = family;
-	emit familyChanged();
+	this->resualt = r;
+	emit searchResualtChanged();
 }
 
 void DataBase::initData()
 {
 	if (db.open()) {
-		QSqlQuery query;
+		QSqlQuery q;
 
-		qDebug() << query.exec("select * from person;");
+		qDebug() << q.exec("select * from person;");
 
-		query.last();	// point to last resualt
-		const int row = query.at() + 1;		// save position of last row
+		q.last();	// point to last resualt
+		const int row = q.at() + 1;		// save position of last row
 		qDebug() << "row numbers is: " << row;
 
-		query.first();	// point to first resualt
-		query.previous();	// point to start
+		q.first();	// point to first resualt
+		q.previous();	// point to start
 
-		while (query.next()) {
-			qDebug() << query.value(0).toString();
-			qDebug() << query.value(1).toString();
-			qDebug() << query.value(2).toString();
+		while (q.next()) {
+			qDebug() << q.value(0).toString();
+			qDebug() << q.value(1).toString();
+			qDebug() << q.value(2).toString();
 			qDebug() << "";
 		}
+	}
+	else {
+		qDebug() << "data base cant open in initData";
 	}
 }
 
 QString DataBase::getName(const int i)
 {
 	if (db.open()) {
-		QSqlQuery query;
-		query.exec(QString("select name from person where id=%1").arg(i));
-		query.next();
+		QSqlQuery q;
+		q.exec(QString("select name from person where id=%1").arg(i));
+		q.next();
 
-		return query.value(0).toString();
+		return q.value(0).toString();
+	}
+	else {
+		qDebug() << "data base cant open in getName";
+		return "ERROR";
 	}
 
-	return "ERROR";
 }
 
 QVariant DataBase::getNames()
 {
 	QStringList list;
 	if (db.open()) {
-		QSqlQuery query;
-		query.exec("select name from person;");
+		QSqlQuery q;
+		q.exec("select name from person;");
 
-		while (query.next()) {
-			list.append(query.value(0).toString());
+		while (q.next()) {
+			list.append(q.value(0).toString());
 		}
+	}
+	else {
+		qDebug() << "data base cant open in getNames";
 	}
 
 	return QVariant::fromValue(list);
@@ -90,27 +85,51 @@ QVariant DataBase::getNames()
 QString DataBase::getFamily(const int i)
 {
 	if (db.open()) {
-		QSqlQuery query;
-		query.exec(QString("select family from person where id=%1").arg(i));
-		query.next();
+		QSqlQuery q;
+		q.exec(QString("select family from person where id=%1").arg(i));
+		q.next();
 
-		return query.value(0).toString();
+		return q.value(0).toString();
 	}
-
-	return "ERROR";
+	else {
+		qDebug() << "data base cant open in getFamily";
+		return "ERROR";
+	}
 }
 
-QVariant DataBase::getFamilys()
+QVariant DataBase::getFamiles()
 {
 	QStringList list;
 	if (db.open()) {
-		QSqlQuery query;
-		query.exec("select name from person;");
+		QSqlQuery q;
+		q.exec("select family from person;");
 
-		while (query.next()) {
-			list.append(query.value(0).toString());
+		while (q.next()) {
+			list.append(q.value(0).toString());
 		}
+	}
+	else {
+		qDebug() << "data base cant open in getFamiles";
 	}
 
 	return QVariant::fromValue(list);
+}
+
+void DataBase::search_in_name(QString name)
+{
+	if(db.isOpen()) {
+		QStringList list;
+		QSqlQuery q;
+		q.exec(QString("select * from person where name=\"%1\";").arg(name));
+
+		while (q.next()) {
+			list.append(q.value(0).toString());
+			list.append(q.value(1).toString());
+			list.append(q.value(2).toString());
+		}
+		setSearchResualt(QVariant::fromValue(list));
+	}
+	else {
+		qDebug() << "data base cant open in search_in_name slot";
+	}
 }

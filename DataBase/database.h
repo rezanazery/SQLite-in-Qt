@@ -13,36 +13,28 @@
 class DataBase : public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-	Q_PROPERTY(QString family READ family WRITE setFamily NOTIFY familyChanged)
+	Q_PROPERTY(QVariant searchResualt READ searchResualt WRITE setSearchResualt NOTIFY searchResualtChanged)
 
 public:
 	explicit DataBase(QObject *parent = 0);
 
-	QString name();
-	QString family();
-
-	void setName(const QString &name);
-	void setFamily(const QString &family);
+	QVariant searchResualt();
+	void setSearchResualt(const QVariant &r);
 
 private:
 	QSqlDatabase db;
-
-	QString myName;
-	QString myFamily;
-//	QStringList list_name;
-//	QStringList list_family;
+	QVariant resualt;
 
 signals:
-	void nameChanged();
-	void familyChanged();
+	void searchResualtChanged();
 
 public slots:
 	void initData();
 	QString getName(const int i);
 	QVariant getNames();
 	QString getFamily(const int i);
-	QVariant getFamilys();
+	QVariant getFamiles();
+	void search_in_name(QString name);
 };
 
 #endif // DATABASE_H

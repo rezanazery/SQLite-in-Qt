@@ -14,21 +14,36 @@ ApplicationWindow {
 			anchors.centerIn: parent
 			spacing: 15
 
-			Label {
-				text: DataBase.name
+//			Label {
+//				id: resualt
+//				text: "no resualt"
+//				anchors.horizontalCenter: parent.horizontalCenter
+//			}
+			ListView {
+				width: 200; height: 100
+				model: DataBase.searchResualt
+				delegate: Text {
+					text: modelData
+				}
+			}
+
+			TextField {
+				id: input
+				width: 100; height: 25
+				placeholderText: "search in names"
 				anchors.horizontalCenter: parent.horizontalCenter
 			}
 
 			Button {
 				text: "Button"
-				onClicked: DataBase.getName(1)
+				onClicked: DataBase.search_in_name(input.text)
 				anchors.horizontalCenter: parent.horizontalCenter
 			}
 
 			Row {
 				anchors.horizontalCenter: parent.horizontalCenter
 				ListView {
-					width: 100; height: 200
+					width: 100; height: 100
 					model: DataBase.getNames()
 					delegate: Text {
 						text: modelData
@@ -36,8 +51,8 @@ ApplicationWindow {
 				}
 
 				ListView {
-					width: 100; height: 200
-					model: DataBase.getFamilys()
+					width: 100; height: 100
+					model: DataBase.getFamiles()
 					delegate: Text {
 						text: modelData
 					}
